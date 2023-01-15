@@ -23,5 +23,8 @@ ng serve --open
 ```
 * To view the application, navigate to  http://localhost:4200/ 
 * Generate an API Key (Personal Access Token) https://github.com/settings/tokens
-
-
+# Testing
+* Run the following command to run all the unit-tests
+``` 
+ng test
+```
