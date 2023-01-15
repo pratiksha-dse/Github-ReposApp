@@ -1,0 +1,132 @@
+<div class="container search-page">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div>
+                <form (ngSubmit)="searchGithubUser()" id="search-form" #f="ngForm">
+                    <input type="text" class="form-control search" ngModel name="search"
+                        placeholder="Enter github username to search..." required #search="ngModel">
+                    <p class="text-danger error-block" *ngIf="!search.valid && search.touched"><small>Fill in
+                            field!</small></p>
+                    <div class="d-grid mt-2">
+                        <button type="submit" class="btn btn-block btn-search" [disabled]="!f.valid">
+                            Search User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!--user details response-->
+    <div class="row" *ngIf="displayUserDetailContainer">
+        <div class="col-md-5">
+            <div class="card">
+                <img class="card-img-top" [src]="user.avatar_url" alt="My Image">
+                <div class="card-body text-center">
+                    <p class="card-text">Name:<span> {{user.name}}</span></p>
+                    <!-- <p>Username:<span> {{user.login}}</span></p> -->
+                    <!-- <p>Joined on: <span class="badge rounded-pill bg-warning text-dark">{{user.created_at|date}}</span></p> -->
+                    <div class="follow ">
+                        <div class="row">
+                            <div class="col-sm">
+                                <p><i class="fas fa-user"></i><span>{{user.followers}}</span> Followers</p>
+                            </div>
+                            <div class="col-sm">
+                                <p><i class="fas fa-user"></i><span>{{user.following}}</span> Following</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <ul class="list-group list-group-flush my-details">
+                    <li class="list-group-item">Name: <span>{{user.name}}</span></li>
+                    <li class="list-group-item">Address: <span>{{user.location}}</span></li>
+                    <li class="list-group-item">Public repos: <span
+                            class="badge rounded-pill bg-warning text-dark">{{user.public_repos}}</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">User's Bio</li>
+                    <li class="list-group-item">
+                        <p>{{user.bio}}</p>
+                    </li>
+                    <br>
+                    <!-- <li class="list-group-item">Github</li> -->
+                    <li class="list-group-item">
+                        <div>
+                            <small><a class="btn btn-sm" href="https://github.com/{{ user.login }}" target="_blank"
+                                    rel="noopener noreferrer">View Github </a></small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!--error message if github user is not found-->
+    <div class="row" *ngIf="!displayUserDetailContainer && displayGithubUserErrorNotFound">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="card">
+            <div class="alert alert-danger" role="alert">No Github user found</div>
+        </div>
+    </div>
+    <div class="row my-repository" *ngIf="displayUserRepositoryList">
+        <div class="col-md-12 text-center">
+            <br>
+            <h2>Repositories Found for: {{searchText}}</h2>
+            <hr>
+        </div>
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                <li class="page-item"><a class="page-link">1</a></li>
+                <li class="page-item active">
+                    <span class="page-link">
+                        2
+                        <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+                <li class="page-item"><a class="page-link">3</a></li>
+                <li class="page-item">
+                    <a class="page-link">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="col-md-6" *ngFor="let repository of repositories; let i=index">
+            <div class="card card-repo">
+                <span class="float-center"></span>
+                <div class="card-body ">
+                    <a href="{{repository.html_url}}" target="_blank" class="card-link ">  <h4 class="card-title card-name heading"><i class="fa fa-paperclip " ></i> {{repository.name}}</h4>
+                    </a>
+                    <div>
+                        <p class="card-text">{{repository.description}}</p>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col col-flex " *ngFor="let lang of repository.languages; let i=index">
+                            <div class="lang btn btn-sm">{{lang}}</div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!displayUserRepositoryList && displayUserErrorMessage">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="alert alert-danger" role="alert">No repositories found for {{searchText}}</div>
+            </div>
+        </div>
+    </div>
+</div>
