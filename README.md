@@ -1,4 +1,4 @@
-# Github Search Web App
+# Github-Repos Search App
 # Link to Live Website
 Link:  https://pratiksha-dse.github.io/Github-ReposApp/
 
